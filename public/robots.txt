@@ -1,0 +1,3 @@
+User-agent: *
+
+Sitemap: http://statistics-on-swiss-labour.netlify.app/sitemap.xml
