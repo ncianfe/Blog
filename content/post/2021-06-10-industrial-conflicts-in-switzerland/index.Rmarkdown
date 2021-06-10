@@ -1,0 +1,99 @@
+---
+title: Industrial Conflicts in Switzerland
+author: Nicola Cianferoni
+date: '2021-06-10'
+slug: industrial-conflicts-in-switzerland
+categories: [Industrial conflicts]
+tags: []
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2021-06-10T21:34:04+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+```{r setup, include=FALSE}
+
+# Options
+
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+# Libraries
+
+library(ggplot2)
+library(hrbrthemes)
+library(tidyverse)
+library(lubridate)
+library(readxl)
+library(ggplot2)
+library(plotly)
+library(gapminder)
+
+options(scipen=999)
+
+# Database
+
+sch <- read_excel("~/switchdrive/OFS Strikes/je-f-03.05.03.01 (1) nc.xlsx")
+
+strikes_ch <-  NULL
+strikes_ch$year <- as.numeric(sch$Année)
+strikes_ch$workers <- as.numeric(sch$`Travailleurs impliqués2`)
+strikes_ch$days <- as.numeric(sch$`Journées de travail non effectuées`)
+strikes_ch$nb <- as.numeric(sch$Cas)
+
+strikes_ch <- as.data.frame(strikes_ch)
+
+# Intensity of labour conflicts
+
+strikes_ch <- strikes_ch %>%
+  mutate(intensity = workers*days*nb)
+
+```
+
+```{r}
+
+ggplotly(
+  strikes_ch %>%
+  ggplot(aes(x=year, y=nb)) +
+  geom_smooth(se=F) +
+  geom_line(size=1) +
+  labs(title = "Number of strikes in Switzerland",
+       caption="Source: Swiss federal office for statistics") +
+  theme_ipsum()
+)
+
+
+strikes_ch %>%
+  ggplot(aes(x=year, y=days)) +
+  geom_smooth(se=F) +
+  geom_line(size=1) +
+  labs(title = "Lost working days because of labour conflicts in Switzerland",
+       caption="Source: Swiss federal office for statistics") +
+  theme_ipsum()
+
+strikes_ch %>%
+  ggplot(aes(x=year, y=workers)) +
+  geom_smooth(se=F) +
+  geom_line(size=1) +
+  labs(title = "Workers involved in labour conflicts in Switzerland",
+       caption="Source: Swiss federal office for statistics") +
+  theme_ipsum()
+
+strikes_ch %>%
+  ggplot(aes(x=year, y=intensity)) +
+  geom_smooth(se=F) +
+  geom_line(size=1) +
+  labs(title = "Intensity of labour conflicts in Switzerland",
+       subtitle = "Lost working days multiplied by the number of workers and strikes",
+       caption="Source: Swiss federal office for statistics") +
+  theme_ipsum()
+
+
+```
+
+
