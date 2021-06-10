@@ -3,8 +3,8 @@ active: false
 widget: hero
 headless: true
 weight: 10
-title: Hugo Academic Starter
-hero_media: hero-academic.png
+title: Welcome to my blog
+hero_media: NC SECO photo.png
 cta:
   label: '**Get Started**'
   url: https://wowchemy.com/templates/

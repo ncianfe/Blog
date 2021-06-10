@@ -1,4 +1,5 @@
 ---
+active:false
 # Homepage
 type: widget_page
 
