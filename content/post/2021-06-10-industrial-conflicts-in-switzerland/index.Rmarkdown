@@ -6,7 +6,7 @@ slug: industrial-conflicts-in-switzerland
 categories: [Industrial conflicts]
 tags: []
 subtitle: ''
-summary: ''
+summary: 'test'
 authors: []
 lastmod: '2021-06-10T21:34:04+02:00'
 featured: no
@@ -36,7 +36,11 @@ library(gapminder)
 
 options(scipen=999)
 
+```
+
 # Database
+
+```{r data}
 
 sch <- read_excel("~/switchdrive/OFS Strikes/je-f-03.05.03.01 (1) nc.xlsx")
 
@@ -48,12 +52,9 @@ strikes_ch$nb <- as.numeric(sch$Cas)
 
 strikes_ch <- as.data.frame(strikes_ch)
 
-# Intensity of labour conflicts
-
-strikes_ch <- strikes_ch %>%
-  mutate(intensity = workers*days*nb)
-
 ```
+
+# Graphic 1
 
 ```{r}
 
@@ -67,7 +68,13 @@ ggplotly(
   theme_ipsum()
 )
 
+```
 
+# Graphic 2
+
+```{r}
+
+ggplotly(
 strikes_ch %>%
   ggplot(aes(x=year, y=days)) +
   geom_smooth(se=F) +
@@ -75,7 +82,16 @@ strikes_ch %>%
   labs(title = "Lost working days because of labour conflicts in Switzerland",
        caption="Source: Swiss federal office for statistics") +
   theme_ipsum()
+)
 
+```
+
+# Graphic 3
+
+
+```{r}
+
+ggplotly(
 strikes_ch %>%
   ggplot(aes(x=year, y=workers)) +
   geom_smooth(se=F) +
@@ -83,6 +99,27 @@ strikes_ch %>%
   labs(title = "Workers involved in labour conflicts in Switzerland",
        caption="Source: Swiss federal office for statistics") +
   theme_ipsum()
+)
+
+```
+
+# Index
+
+```{r index}
+
+
+# Intensity of labour conflicts
+
+strikes_ch <- strikes_ch %>%
+  mutate(intensity = workers*days*nb)
+
+```
+
+# Graphic 4
+
+```{r}
+
+library(scales)
 
 strikes_ch %>%
   ggplot(aes(x=year, y=intensity)) +
@@ -91,9 +128,7 @@ strikes_ch %>%
   labs(title = "Intensity of labour conflicts in Switzerland",
        subtitle = "Lost working days multiplied by the number of workers and strikes",
        caption="Source: Swiss federal office for statistics") +
+  scale_y_continuous(labels = label_number(scale = 1e-9)) +
   theme_ipsum()
-
-
 ```
-
 
